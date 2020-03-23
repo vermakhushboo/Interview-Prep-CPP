@@ -48,6 +48,37 @@ void insertInMiddle(node *&head, int value, int position){
 	new_node->next = next_node;
 }
 
+bool searchElement(node *head, int value){
+	while(head){
+		if(head->data == value)
+			return true;
+		head = head->next;
+	}
+	return false;
+}
+
+void deleteList(node *head){
+	node *next_element, *current;
+	current = head;
+	while(current){
+		next_element = current->next;
+		delete current;
+		current = next_element;
+	}
+	delete head;
+}
+
+void reverseLL(node *&head){
+	node *previous = NULL, *current = head, *next_node = head->next;
+	while(current){
+		next_node = current->next;
+		current->next = previous;
+		previous = current; //first store
+		current = next_node; //then update
+	}
+	head = previous;
+}
+
 void printList(node *head){ //No modifications to value of head
 	if(head==NULL){
 		cout<<"\n";
@@ -57,6 +88,15 @@ void printList(node *head){ //No modifications to value of head
 	printList(head->next);
 }
 
+node* reverseRecursive(node *head){
+	if(head == NULL || head->next == NULL)
+		return head;
+	node *small_head = reverseRecursive(head->next);
+	head->next->next = head;
+	head->next = NULL;
+	return small_head;
+}
+
 int main(){
 	node *head = NULL;
 	insertAtTail(head, 3);
@@ -64,9 +104,16 @@ int main(){
 	insertAtHead(head, 2);
 	insertAtTail(head, 0);
 	insertInMiddle(head, 5, 2);
-	printList(head);
+//	printList(head);
 	insertInMiddle(head, 4, 0);
 	insertInMiddle(head, 6, 6);
 	insertInMiddle(head, 10, 9); //edge case
+//	printList(head);
+	cout<<"6 is present in the LL: "<<searchElement(head, 6)<<endl;
+	cout<<"11 is present in the LL: "<<searchElement(head, 11)<<endl;
+//	deleteList(head);
+	printList(head);
+//	reverseLL(head);
+	head = reverseRecursive(head);
 	printList(head);
 }
