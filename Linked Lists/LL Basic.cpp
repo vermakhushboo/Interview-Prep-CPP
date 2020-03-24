@@ -79,15 +79,6 @@ void reverseLL(node *&head){
 	head = previous;
 }
 
-void printList(node *head){ //No modifications to value of head
-	if(head==NULL){
-		cout<<"\n";
-		return;
-	}		
-	cout<<head->data<<" ";
-	printList(head->next);
-}
-
 node* reverseRecursive(node *head){
 	if(head == NULL || head->next == NULL)
 		return head;
@@ -95,6 +86,24 @@ node* reverseRecursive(node *head){
 	head->next->next = head;
 	head->next = NULL;
 	return small_head;
+}
+
+int midOfLL(node *head){
+	node *slow, *fast = head; //runner technique
+	while(fast->next!=NULL && fast->next->next!=NULL){
+		slow = slow->next;
+		fast = fast->next->next;
+	}
+	return slow->data;
+}
+
+void printList(node *head){ //No modifications to value of head
+	if(head==NULL){
+		cout<<"\n";
+		return;
+	}		
+	cout<<head->data<<" ";
+	printList(head->next);
 }
 
 int main(){
@@ -116,4 +125,5 @@ int main(){
 //	reverseLL(head);
 	head = reverseRecursive(head);
 	printList(head);
+	cout<<"Middle of LL is: "<<midOfLL(head)<<endl;
 }
