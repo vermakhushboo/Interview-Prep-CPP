@@ -77,12 +77,23 @@ void levelOrder(node *root){
 	}
 }
 
+//diameter of binary tree
+//inefficient because calls height function every time
+int diameterOfTree(node *root){
+	if(root == NULL)
+		return 0;
+	int option_1 = heightOfTree(root->left) + heightOfTree(root->right);
+	int option_2 = max(diameterOfTree(root->left), diameterOfTree(root->right)) + 1;
+	return max(option_1, option_2);
+}
+
 int main(){
 	node *root = buildTree();
 	printKthLevel(root, 2);
 	cout<<endl;
 	cout<<"Height of Tree "<<heightOfTree(root)<<endl;
-	levelOrder(root);
+//	levelOrder(root);
+	cout<<"Diameter of Tree "<<diameterOfTree(root)<<endl;	
 }
 
 //5 2 7 -1 -1 9 3 -1 -1 -1 1 3 -1 6 -1 -1 4 -1 -1 (Sample Input)
