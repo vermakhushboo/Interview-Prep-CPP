@@ -1,4 +1,5 @@
 #include<iostream>
+#include<queue>
 using namespace std;
 
 class node{
@@ -48,11 +49,40 @@ void printKthLevel(node *root, int k){
 	printKthLevel(root->right, k-1);
 }
 
+//Level Order Traversal of Binary Tree
+//with each level on a new line
+void levelOrder(node *root){
+	queue<node*> q;
+	q.push(root);
+	q.push(NULL);
+	while(!q.empty()){
+		node* queue_front = q.front();
+		if(queue_front == NULL){
+			cout<<"\n";
+			q.pop();
+			if(!q.empty()) //if not on last level
+				q.push(NULL);
+		}
+		else{
+			q.pop();
+			//print the current value
+			cout<<queue_front->data<<" ";
+			
+			//push left and right children if they exist
+			if(queue_front->left != NULL)
+				q.push(queue_front->left);
+			if(queue_front->right != NULL)
+				q.push(queue_front->right);
+		}
+	}
+}
+
 int main(){
 	node *root = buildTree();
 	printKthLevel(root, 2);
 	cout<<endl;
 	cout<<"Height of Tree "<<heightOfTree(root)<<endl;
+	levelOrder(root);
 }
 
 //5 2 7 -1 -1 9 3 -1 -1 -1 1 3 -1 6 -1 -1 4 -1 -1 (Sample Input)
